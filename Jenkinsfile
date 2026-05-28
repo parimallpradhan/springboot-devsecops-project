@@ -16,13 +16,47 @@ pipeline {
             }
         }
 
-        stage('Build Application') {
+        stage('Build & Test') {
             steps {
 		script {
-                sh 'mvn clean package'
+               sh 'mvn clean test'
 		 }
             }
         }
+
+ 	stage('SonarQube Analysis') {
+            steps {
+		script {
+               	withSonarQubeEnv('sonarqube') {
+
+                    sh '''
+                    mvn sonar:sonar \
+                    -Dsonar.projectKey=ecommerce-app
+                    '''
+                }
+
+		 }
+            }
+        }
+
+    stage('Quality Gate') {
+            steps {
+
+                timeout(time: 5, unit: 'MINUTES') {
+
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+    stage('Package') {
+            steps {
+		script {
+	                sh 'mvn package'
+		 }
+            }
+        }
+
 
     }
 }
