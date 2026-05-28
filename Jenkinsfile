@@ -18,9 +18,9 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-		script {
-               sh 'mvn clean test'
-		 }
+				script {
+             		  sh 'mvn clean test'
+		 			}
             }
         }
 
@@ -51,9 +51,9 @@ pipeline {
 
     stage('Package') {
             steps {
-		script {
+				script {
 	                sh 'mvn package'
-		 }
+					 }
             }
         }
 
