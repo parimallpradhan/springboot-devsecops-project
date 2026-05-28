@@ -11,7 +11,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main',
+                git branch: 'feature/product-api',
                 url: 'https://github.com/parimallpradhan/springboot-devsecops-project.git'
             }
         }
